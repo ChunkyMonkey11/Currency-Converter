@@ -1,2 +1,2 @@
 # Currency-Converter
-Currency Converter Project
+Live currency converter project. 
