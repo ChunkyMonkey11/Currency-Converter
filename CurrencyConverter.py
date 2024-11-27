@@ -22,23 +22,11 @@ def get_currency():
         return None
     
 
-
-
-
-# Retriving currencies from api
-retrieved_currencies = get_currency()
-
-
-
 # Function to retrieve all valid currencies for later usage.
 def get_valid_currencies(json_data):
     
     # Extract the keys from the 'data' dictionary
     return list(json_data["data"].keys())
-
-
-# Calling function to retrieve valid currencies for user to access from.
-VALIDCURRENCIES = get_valid_currencies(retrieved_currencies)
 
 
 # User Inputted Curerency.
@@ -54,8 +42,14 @@ def get_desired_currency():
         print(f"Invalid currency. Please choose from the following: {', '.join(VALIDCURRENCIES)}")
 
 
-    
+# Retriving currencies from api
+retrieved_currencies = get_currency() 
+
+# Calling function to retrieve valid currencies for user to access from.
+VALIDCURRENCIES = get_valid_currencies(retrieved_currencies)
+
 if retrieved_currencies:
     users_currency = get_desired_currency()
     print(f"The desired currency is {users_currency}")  
+
 
