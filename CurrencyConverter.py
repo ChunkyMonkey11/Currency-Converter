@@ -28,6 +28,43 @@ def get_valid_currencies(json_data):
     # Extract the keys from the 'data' dictionary
     return list(json_data["data"].keys())
 
+# Manually creating a dictonary with valid currencies in a non abbreivated format
+FULL_CURRENCIES_NAMES = {
+    "AUSTRALIAN DOLLAR": "AUD",
+    "BULGARIAN LEV": "BGN",
+    "BRAZILIAN REAL": "BRL",
+    "CANADIAN DOLLAR": "CAD",
+    "SWISS FRANC": "CHF",
+    "CHINESE YUAN": "CNY",
+    "CZECH KORUNA": "CZK",
+    "DANISH KRONE": "DKK",
+    "EURO": "EUR",
+    "BRITISH POUND": "GBP",
+    "HONG KONG DOLLAR": "HKD",
+    "CROATIAN KUNA": "HRK",
+    "HUNGARIAN FORINT": "HUF",
+    "INDONESIAN RUPIAH": "IDR",
+    "ISRAELI SHEKEL": "ILS",
+    "INDIAN RUPEE": "INR",
+    "ICELANDIC KRONA": "ISK",
+    "JAPANESE YEN": "JPY",
+    "SOUTH KOREAN WON": "KRW",
+    "MEXICAN PESO": "MXN",
+    "MALAYSIAN RINGGIT": "MYR",
+    "NORWEGIAN KRONE": "NOK",
+    "NEW ZEALAND DOLLAR": "NZD",
+    "PHILIPPINE PESO": "PHP",
+    "POLISH ZLOTY": "PLN",
+    "ROMANIAN LEU": "RON",
+    "RUSSIAN RUBLE": "RUB",
+    "SWEDISH KRONA": "SEK",
+    "SINGAPORE DOLLAR": "SGD",
+    "THAI BAHT": "THB",
+    "TURKISH LIRA": "TRY",
+    "US DOLLAR": "USD",
+    "SOUTH AFRICAN RAND": "ZAR"
+}
+FULL_VALID_CURRENCIES = list(FULL_CURRENCIES_NAMES.keys())
 
 # Getting users desired currency with attempt handling
 def get_desired_currency():
@@ -40,6 +77,10 @@ def get_desired_currency():
 
         if desired_currency in VALIDCURRENCIES:
             return desired_currency
+
+        elif desired_currency in FULL_VALID_CURRENCIES:
+            # Return the corresponding abbreviation
+            return FULL_CURRENCIES_NAMES[desired_currency]
         else:
             attempts += 1
             print(f"Invalid currency. You have {max_attempts - attempts} attempts left.")
