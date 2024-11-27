@@ -118,7 +118,7 @@ if retrieved_currencies:
     # Prompting user for how much USD they want to convert.
     while True:
         try:
-            amount_pre_conversion = float(input("💵 Enter the amount in USD to convert: $"))
+            amount_pre_conversion = float(input(f"💵 Enter the amount in USD to convert into {users_currency}: $"))
             if amount_pre_conversion <= 0:
                 print("❌ Please enter a positive number.")
                 continue
