@@ -1,7 +1,7 @@
 import warnings
 warnings.filterwarnings("ignore")
 import requests
-import json
+
 
 # Function to get the currencies
 def get_currency():
