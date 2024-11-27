@@ -3,6 +3,7 @@ warnings.filterwarnings("ignore")
 import requests
 import json
 
+# Function to get the currencies
 def get_currency():
     # Define the API endpoint URL
     url = 'https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_m4Wwm86wa4UC3DOVeN7nYRMv0zVb1LQetDHRrbMW'
@@ -20,27 +21,41 @@ def get_currency():
         print('Error:', e)
         return None
     
-# Setting variable to retrive currencies 
-Currencies = get_currency()
 
 
-if Currencies:
 
-    # Print the entire JSON response in a cleaner format
-    print(json.dumps(Currencies, indent=4))
 
-    # Extract usd exchange rate
-    usd_rate = Currencies["data"]["USD"]
+# Retriving currencies from api
+retrieved_currencies = get_currency()
 
-    # Print the exchange rate of USD
-    print("Exchange rate for USD:", usd_rate)
+
+
+# Function to retrieve all valid currencies for later usage.
+def get_valid_currencies(json_data):
+    
+    # Extract the keys from the 'data' dictionary
+    return list(json_data["data"].keys())
+
+
+# Calling function to retrieve valid currencies for user to access from.
+VALIDCURRENCIES = get_valid_currencies(retrieved_currencies)
+
+
+# User Inputted Curerency.
+def get_desired_currency():
+    # Prompt user for desired currency
+    Desired_Currency = input("What is the currency that you would like to convert USD into? ").upper()
+
+    # Checking if the currency the user wants is valid.
+    if Desired_Currency in VALIDCURRENCIES:
+        return Desired_Currency
+    else:
+        # Error message
+        print(f"Invalid currency. Please choose from the following: {', '.join(VALIDCURRENCIES)}")
+
 
     
-
-        
-
-
-
-
-
+if retrieved_currencies:
+    users_currency = get_desired_currency()
+    print(f"The desired currency is {users_currency}")  
 
