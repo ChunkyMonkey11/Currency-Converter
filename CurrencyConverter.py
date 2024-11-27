@@ -48,8 +48,24 @@ retrieved_currencies = get_currency()
 # Calling function to retrieve valid currencies for user to access from.
 VALIDCURRENCIES = get_valid_currencies(retrieved_currencies)
 
-if retrieved_currencies:
-    users_currency = get_desired_currency()
-    print(f"The desired currency is {users_currency}")  
 
+if retrieved_currencies:
+
+    # Prompting user for desired currency
+    users_currency = get_desired_currency()
+
+    # Retriving rate of desired currency
+    desired_rate =  retrieved_currencies["data"][users_currency]
+    print("\n")
+
+    # Prompting user for how much USD they want to convert.
+    amount_pre_conversion = float(input("How much money USD are you converting? :"))
+
+    # Calculating how much the USD is worth after conversion
+    amount_post_conversion = amount_pre_conversion * desired_rate
+
+
+
+    # print(f"The desired currency is {users_currency}, and the conversion rate from usd to that currency is {desired_rate}")  
+    print(f"{amount_pre_conversion}USD is going to be worth {amount_post_conversion} dollars {users_currency} ")
 
