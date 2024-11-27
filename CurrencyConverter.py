@@ -29,17 +29,24 @@ def get_valid_currencies(json_data):
     return list(json_data["data"].keys())
 
 
-# User Inputted Curerency.
+# Getting users desired currency with attempt handling
 def get_desired_currency():
-    # Prompt user for desired currency
-    Desired_Currency = input("What is the currency that you would like to convert USD into? ").upper()
+    attempts = 0
+    max_attempts = 3
 
-    # Checking if the currency the user wants is valid.
-    if Desired_Currency in VALIDCURRENCIES:
-        return Desired_Currency
-    else:
-        # Error message
-        print(f"Invalid currency. Please choose from the following: {', '.join(VALIDCURRENCIES)}")
+    while attempts < max_attempts:
+        desired_currency = input("What is the currency that you would like to convert USD into? ").upper()
+
+        if desired_currency in VALIDCURRENCIES:
+            return desired_currency
+        else:
+            attempts += 1
+            print(f"Invalid currency. You have {max_attempts - attempts} attempts left.")
+            print(f"Valid currencies: {', '.join(VALIDCURRENCIES)}")
+
+    # print("Too many invalid attempts. Returning to the main menu...")
+    return None
+
 
 
 # Retriving currencies from api
@@ -53,6 +60,11 @@ if retrieved_currencies:
 
     # Prompting user for desired currency
     users_currency = get_desired_currency()
+
+    # Checking to see if their is no currency to convert and handling the key error.
+    if users_currency is None:
+        print("Too many invalid attempts. Returning to the main menu...")
+        exit()
 
     # Retriving rate of desired currency
     desired_rate =  retrieved_currencies["data"][users_currency]
