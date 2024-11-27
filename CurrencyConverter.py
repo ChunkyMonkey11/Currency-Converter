@@ -3,6 +3,7 @@ warnings.filterwarnings("ignore")
 import requests
 import json
 
+# Function to get the currencies
 def get_currency():
     # Define the API endpoint URL
     url = 'https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_m4Wwm86wa4UC3DOVeN7nYRMv0zVb1LQetDHRrbMW'
@@ -20,27 +21,63 @@ def get_currency():
         print('Error:', e)
         return None
     
-# Setting variable to retrive currencies 
-Currencies = get_currency()
 
-
-if Currencies:
-
-    # Print the entire JSON response in a cleaner format
-    print(json.dumps(Currencies, indent=4))
-
-    # Extract usd exchange rate
-    usd_rate = Currencies["data"]["USD"]
-
-    # Print the exchange rate of USD
-    print("Exchange rate for USD:", usd_rate)
-
+# Function to retrieve all valid currencies for later usage.
+def get_valid_currencies(json_data):
     
-
-        
-
-
+    # Extract the keys from the 'data' dictionary
+    return list(json_data["data"].keys())
 
 
+# Getting users desired currency with attempt handling
+def get_desired_currency():
+    attempts = 0
+    max_attempts = 3
 
+    while attempts < max_attempts:
+        desired_currency = input("What is the currency that you would like to convert USD into? ").upper()
+
+        if desired_currency in VALIDCURRENCIES:
+            return desired_currency
+        else:
+            attempts += 1
+            print(f"Invalid currency. You have {max_attempts - attempts} attempts left.")
+            print(f"Valid currencies: {', '.join(VALIDCURRENCIES)}")
+
+    # print("Too many invalid attempts. Returning to the main menu...")
+    return None
+
+
+
+# Retriving currencies from api
+retrieved_currencies = get_currency() 
+
+# Calling function to retrieve valid currencies for user to access from.
+VALIDCURRENCIES = get_valid_currencies(retrieved_currencies)
+
+# Main code
+if retrieved_currencies:
+
+    # Prompting user for desired currency
+    users_currency = get_desired_currency()
+
+    # Checking to see if their is no currency to convert and handling the key error.
+    if users_currency is None:
+        print("Too many invalid attempts. Returning to the main menu...")
+        exit()
+
+    # Retriving rate of desired currency
+    desired_rate =  retrieved_currencies["data"][users_currency]
+    print("\n")
+
+    # Prompting user for how much USD they want to convert.
+    amount_pre_conversion = float(input("How much money USD are you converting? :"))
+
+    # Calculating how much the USD is worth after conversion
+    amount_post_conversion = amount_pre_conversion * desired_rate
+
+
+
+    # print(f"The desired currency is {users_currency}, and the conversion rate from usd to that currency is {desired_rate}")  
+    print(f"{amount_pre_conversion}USD is going to be worth {amount_post_conversion} dollars {users_currency} ")
 
