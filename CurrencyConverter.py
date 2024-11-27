@@ -55,7 +55,7 @@ retrieved_currencies = get_currency()
 # Calling function to retrieve valid currencies for user to access from.
 VALIDCURRENCIES = get_valid_currencies(retrieved_currencies)
 
-
+# Main code
 if retrieved_currencies:
 
     # Prompting user for desired currency
