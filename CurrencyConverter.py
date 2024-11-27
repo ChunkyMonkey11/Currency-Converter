@@ -1,7 +1,7 @@
 import warnings
 warnings.filterwarnings("ignore")
 import requests
-import json
+
 
 # Function to get the currencies
 def get_currency():
@@ -35,6 +35,7 @@ def get_desired_currency():
     max_attempts = 3
 
     while attempts < max_attempts:
+        
         desired_currency = input("What is the currency that you would like to convert USD into? ").upper()
 
         if desired_currency in VALIDCURRENCIES:
@@ -57,13 +58,16 @@ VALIDCURRENCIES = get_valid_currencies(retrieved_currencies)
 
 # Main code
 if retrieved_currencies:
+    print("\n===============================")
+    print("🌍 Welcome to the Currency Converter 🌍")
+    print("===============================\n")
 
     # Prompting user for desired currency
     users_currency = get_desired_currency()
 
     # Checking to see if their is no currency to convert and handling the key error.
     if users_currency is None:
-        print("Too many invalid attempts. Returning to the main menu...")
+        print("❌ Too many invalid attempts. Returning to the main menu...")
         exit()
 
     # Retriving rate of desired currency
@@ -71,7 +75,15 @@ if retrieved_currencies:
     print("\n")
 
     # Prompting user for how much USD they want to convert.
-    amount_pre_conversion = float(input("How much money USD are you converting? :"))
+    while True:
+        try:
+            amount_pre_conversion = float(input("💵 Enter the amount in USD to convert: $"))
+            if amount_pre_conversion <= 0:
+                print("❌ Please enter a positive number.")
+                continue
+            break
+        except ValueError:
+            print("❌ Invalid input. Please enter a numeric value.")
 
     # Calculating how much the USD is worth after conversion
     amount_post_conversion = amount_pre_conversion * desired_rate
@@ -79,5 +91,10 @@ if retrieved_currencies:
 
 
     # print(f"The desired currency is {users_currency}, and the conversion rate from usd to that currency is {desired_rate}")  
-    print(f"{amount_pre_conversion}USD is going to be worth {amount_post_conversion} dollars {users_currency} ")
+    print("\n===============================")
+    print(f"💰 Conversion Summary 💰")
+    print(f"👉 {amount_pre_conversion:.2f} USD is equivalent to {amount_post_conversion:.2f} {users_currency}")
+
+
+
 
